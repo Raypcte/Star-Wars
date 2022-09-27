@@ -1,8 +1,12 @@
 import React, { useState, useContext } from 'react';
 import context from '../context/myContext';
 
+const colunas = ['population', 'orbital_period',
+  'diameter', 'rotation_period', 'surface_water'];
+
 const Filter = () => {
   const { setState, state } = useContext(context);
+  const [column, setColumn] = useState(colunas);
   const [filtros, setFiltros] = useState(
     {
       column: 'population',
@@ -23,6 +27,7 @@ const Filter = () => {
       ...state,
       filters: [...state.filters, filtros],
     });
+    setColumn(column.filter((coluna) => coluna !== filtros.column));
   };
 
   return (
@@ -33,11 +38,16 @@ const Filter = () => {
         name="column"
         value={ filtros.column }
       >
-        <option value="population">population</option>
+        {
+          column.map((coluna) => (
+            <option value={ coluna } key={ coluna }>{coluna}</option>
+          ))
+        }
+        {/* <option value="population">population</option>
         <option value="orbital_period">orbital_period</option>
         <option value="diameter">diameter</option>
         <option value="rotation_period">rotation_period</option>
-        <option value="surface_water">surface_water</option>
+        <option value="surface_water">surface_water</option> */}
       </select>
 
       <select
