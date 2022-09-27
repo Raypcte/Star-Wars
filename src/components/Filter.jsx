@@ -27,7 +27,12 @@ const Filter = () => {
       ...state,
       filters: [...state.filters, filtros],
     });
-    setColumn(column.filter((coluna) => coluna !== filtros.column));
+    const colunasFiltradas = column.filter((coluna) => coluna !== filtros.column);
+    setColumn(colunasFiltradas);
+    setFiltros({
+      ...state,
+      column: colunasFiltradas[0],
+    });
   };
 
   return (
