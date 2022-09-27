@@ -7,10 +7,27 @@ const Table = () => {
 
   useEffect(() => {
     fetchApi();
-  }, [fetchApi]); // Com array vazio, significa componentDidMount
+  }, []); // Com array vazio, significa componentDidMount
 
   const salvarNome = (event) => {
     setNome(event.target.value);
+  };
+
+  const filtraPlanetas = (planetas) => {
+    let planetasFiltrados = [...planetas];
+    state.filters.forEach(({ column, comparison, value }) => {
+      if (comparison === 'maior que') {
+        planetasFiltrados = planetasFiltrados
+          .filter((planeta) => +planeta[column] > +value);
+      } else if (comparison === 'menor que') {
+        planetasFiltrados = planetasFiltrados
+          .filter((planeta) => +planeta[column] < +value);
+      } else {
+        planetasFiltrados = planetasFiltrados
+          .filter((planeta) => +planeta[column] === +value);
+      }
+    });
+    return planetasFiltrados;
   };
 
   return (
@@ -46,7 +63,7 @@ const Table = () => {
         </thead>
         <tbody>
           { state.planetas.length > 0
-          && state.planetas
+          && filtraPlanetas(state.planetas)
             .filter((item) => item.name.includes(nome))
             .map((item) => (
               <tr key={ item.name }>

@@ -4,6 +4,7 @@ import MyContext from './myContext';
 
 const INITIAL_STATE = {
   planetas: [],
+  filters: [],
 };
 
 function Provider({ children }) {
@@ -13,6 +14,7 @@ function Provider({ children }) {
     const planetas = await fetch('https://swapi.dev/api/planets');
     const estrelas = await planetas.json();
     setState({
+      ...state,
       planetas: estrelas.results,
     });
   };
